@@ -509,5 +509,7 @@ export default class ViewerCore {
       this.layerPass.material.uniforms.screenAspect.value = this.camera.aspect
       this.layerPass.render(this.renderer)
     }
+
+    this.renderer.setRenderTarget(null)
   }
 }

@@ -39,9 +39,13 @@ export default class World {
     this.time.trigger('tick')
   }
 
-  setCard() {
+  async setCard() {
     this.cardSet = new CardSet({
+      time: this.time,
+      renderer: this.renderer,
     })
+
+    await this.cardSet.setViewer()
 
     // generate a card when clicking
     this.time.on('mouseDown', () => {
@@ -52,9 +56,8 @@ export default class World {
 
       const pos = intersects[0].point
       const center = new THREE.Vector3(pos.x, pos.y, 0)
-      const card = this.cardSet.create('segment', center)
+      const card = this.cardSet.create('segment', this.controls.mouse, center)
       this.container.add(card)
-      this.cardSet.setLoadingText(this.controls.mouse)
 
       this.time.trigger('tick')
     })
