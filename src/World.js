@@ -1,8 +1,9 @@
 import * as THREE from 'three'
 
-import Controls from './Controls'
 import WhiteBoard from './WhiteBoard'
 import CardSet from './CardSet'
+import GUIPanel from './GUIPanel'
+import Controls from './Controls'
 
 export default class World {
   constructor(_option) {
@@ -17,9 +18,10 @@ export default class World {
     this.start()
   }
 
-  start() {
+  async start() {
     this.setControls()
     this.setWhiteBoard()
+    this.setGUI()
     this.setCard()
   }
 
@@ -37,6 +39,20 @@ export default class World {
     this.container.add(this.whiteBoard.container)
 
     this.time.trigger('tick')
+  }
+
+  setGUI() {
+    this.gui = new GUIPanel({
+      mode: 'segment',
+    })
+    this.gui.update()
+
+    // update GUI when another card is selected
+    // this.time.on('mouseDown', () => {
+    //   const intersects = this.controls.getRayCast(this.cardSet.list)
+    //   if (!intersects.length) return
+    //   this.gui.update()
+    // })
   }
 
   async setCard() {
@@ -58,7 +74,7 @@ export default class World {
 
       const pos = intersects[0].point
       const center = new THREE.Vector3(pos.x, pos.y, 0)
-      const card = this.cardSet.create('segment', this.controls.mouse, center)
+      const card = this.cardSet.create(this.gui.mode, this.controls.mouse, center)
       this.container.add(card)
 
       this.time.trigger('tick')

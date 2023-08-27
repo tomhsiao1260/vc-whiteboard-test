@@ -36,8 +36,8 @@ export default class Controls {
     })
 
     // whether space key is pressed or not
-    window.addEventListener('keydown', (e) => { this.spacePress = (e.code == 'Space') })
-    window.addEventListener('keyup', (e) => { this.spacePress = !(e.code == 'Space') })
+    window.addEventListener('keydown', (e) => { this.spacePress = (e.code == 'Enter') })
+    window.addEventListener('keyup', (e) => { this.spacePress = !(e.code == 'Enter') })
   }
 
   getRayCast(meshes) {

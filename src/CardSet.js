@@ -103,10 +103,10 @@ export default class CardSet {
   updateAllBuffer() {
     this.viewer.params.mode = 'segment'
     this.viewer.render()
-    // this.viewer.params.mode = 'volume'
-    // this.viewer.render()
-    // this.viewer.params.mode = 'volume-segment'
-    // this.viewer.render()
+    this.viewer.params.mode = 'volume'
+    this.viewer.render()
+    this.viewer.params.mode = 'volume-segment'
+    this.viewer.render()
 
     this.time.trigger('tick')
   }
