@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 import Controls from './Controls'
 import WhiteBoard from './WhiteBoard'
-import Card from './Card'
+import CardSet from './CardSet'
 
 export default class World {
   constructor(_option) {
@@ -20,12 +20,14 @@ export default class World {
   start() {
     this.setControls()
     this.setWhiteBoard()
-    // this.setCard()
+    this.setCard()
   }
 
   setControls() {
     this.controls = new Controls({
       time: this.time,
+      sizes: this.sizes,
+      camera: this.camera,
     })
   }
 
@@ -33,10 +35,28 @@ export default class World {
     this.whiteBoard = new WhiteBoard({
     })
     this.container.add(this.whiteBoard.container)
+
+    this.time.trigger('tick')
   }
 
-  // setCard() {
-  //   this.cardInstance = new Card({
-  //   })
-  // }
+  setCard() {
+    this.cardSet = new CardSet({
+    })
+
+    // generate a card when clicking
+    this.time.on('mouseDown', () => {
+      if (!this.controls.spacePress) return
+
+      const intersects = this.controls.getRayCast([ this.whiteBoard.container ])
+      if (!intersects.length) return
+
+      const pos = intersects[0].point
+      const center = new THREE.Vector3(pos.x, pos.y, 0)
+      const card = this.cardSet.create('segment', center)
+      this.container.add(card)
+      this.cardSet.setLoadingText(this.controls.mouse)
+
+      this.time.trigger('tick')
+    })
+  }
 }

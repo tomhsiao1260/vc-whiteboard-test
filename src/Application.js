@@ -49,9 +49,9 @@ export default class Application {
     this.scene.add(this.camera.container)
 
     this.time.on('tick', () => {
-      console.log('tick')
       this.renderer.render(this.scene, this.camera.instance)
     })
+    this.time.on('tick', () => console.log('tick'))
   }
 
   setWorld() {
@@ -62,5 +62,8 @@ export default class Application {
       renderer: this.renderer,
     })
     this.scene.add(this.world.container)
+
+    // render once
+    this.renderer.render(this.scene, this.camera.instance)
   }
 }
