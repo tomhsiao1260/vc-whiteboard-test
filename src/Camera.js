@@ -29,12 +29,12 @@ export default class Camera {
   }
 
   setOrbitControls() {
-    this.orbitControls = new OrbitControls(this.instance, this.renderer.domElement)
-    this.orbitControls.enableDamping = false
-    this.orbitControls.screenSpacePanning = true // pan orthogonal to world-space direction camera.up
-    this.orbitControls.mouseButtons = { LEFT: MOUSE.PAN, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.ROTATE }
-    this.orbitControls.touches = { ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_ROTATE }
+    this.controls = new OrbitControls(this.instance, this.renderer.domElement)
+    this.controls.enableDamping = false
+    this.controls.screenSpacePanning = true // pan orthogonal to world-space direction camera.up
+    this.controls.mouseButtons = { LEFT: MOUSE.PAN, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.ROTATE }
+    this.controls.touches = { ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_ROTATE }
 
-    this.orbitControls.addEventListener('change', () => this.time.trigger('tick'))
+    this.controls.addEventListener('change', () => this.time.trigger('tick'))
   }
 }

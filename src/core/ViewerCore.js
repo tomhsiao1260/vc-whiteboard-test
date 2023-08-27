@@ -23,6 +23,7 @@ export default class ViewerCore {
     this.segmentList = {}
     this.volumeMeta = data.volumeMeta
     this.segmentMeta = data.segmentMeta
+    this.size = data.size
     this.canvas = canvas
     this.renderer = renderer
     this.render = this.render.bind(this)
@@ -462,7 +463,9 @@ export default class ViewerCore {
     if (!this.renderer) return
 
     const { mode } = this.params
+    const { clientWidth, clientHeight } = this.renderer.domElement
     this.renderer.setRenderTarget(this.buffer[ mode ])
+    // To Do: renderer set to buffer size
     this.renderer.clear()
 
     // segment mode
@@ -510,6 +513,7 @@ export default class ViewerCore {
       this.layerPass.render(this.renderer)
     }
 
+    this.renderer.setSize(clientWidth, clientHeight)
     this.renderer.setRenderTarget(null)
   }
 }

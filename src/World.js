@@ -42,6 +42,8 @@ export default class World {
   async setCard() {
     this.cardSet = new CardSet({
       time: this.time,
+      sizes: this.sizes,
+      camera: this.camera,
       renderer: this.renderer,
     })
 
@@ -61,5 +63,27 @@ export default class World {
 
       this.time.trigger('tick')
     })
+
+    // show mouse pointer when hoving on a card
+    this.time.on('mouseMove', () => {
+      const intersects = this.controls.getRayCast(this.cardSet.list)
+
+      if (!intersects.length) {
+        document.body.style.cursor = 'auto'
+        this.camera.controls.enablePan = true
+        return
+      }
+      document.body.style.cursor = 'pointer'
+      this.camera.controls.enablePan = false
+
+      const card = intersects[0].object
+      this.cardSet.focusCard = card
+      this.cardSet.updateCanvas(card)
+    })
+
+    // update card's scene
+    this.cardSet.viewer.controls.addEventListener('change', () => this.cardSet.updateAllBuffer())
+    // make div window fit into the current focusing card
+    this.time.on('tick', () => { this.cardSet.updateCanvas(this.cardSet.focusCard) })
   }
 }
