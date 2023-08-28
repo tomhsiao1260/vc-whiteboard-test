@@ -18,6 +18,7 @@ export default class CardSet {
   }
 
   setup() {
+    this.$card.className = 'cardDOM'
     this.$card.style.backgroundColor = 'rgba(0, 0, 0, 0.0)'
     this.$card.style.border = '1px solid white'
     this.$card.style.display = 'none'
@@ -106,6 +107,8 @@ export default class CardSet {
     this.viewer.params.mode = 'volume'
     this.viewer.render()
     this.viewer.params.mode = 'volume-segment'
+    this.viewer.render()
+    this.viewer.params.mode = 'layer'
     this.viewer.render()
 
     this.time.trigger('tick')

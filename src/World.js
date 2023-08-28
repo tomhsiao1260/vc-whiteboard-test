@@ -21,8 +21,8 @@ export default class World {
   async start() {
     this.setControls()
     this.setWhiteBoard()
+    await this.setCard()
     this.setGUI()
-    this.setCard()
   }
 
   setControls() {
@@ -39,20 +39,6 @@ export default class World {
     this.container.add(this.whiteBoard.container)
 
     this.time.trigger('tick')
-  }
-
-  setGUI() {
-    this.gui = new GUIPanel({
-      mode: 'segment',
-    })
-    this.gui.update()
-
-    // update GUI when another card is selected
-    // this.time.on('mouseDown', () => {
-    //   const intersects = this.controls.getRayCast(this.cardSet.list)
-    //   if (!intersects.length) return
-    //   this.gui.update()
-    // })
   }
 
   async setCard() {
@@ -78,6 +64,7 @@ export default class World {
       this.container.add(card)
 
       this.time.trigger('tick')
+      this.gui.currentCard()
     })
 
     // show mouse pointer when hoving on a card
@@ -101,5 +88,20 @@ export default class World {
     this.cardSet.viewer.controls.addEventListener('change', () => this.cardSet.updateAllBuffer())
     // make div window fit into the current focusing card
     this.time.on('tick', () => { this.cardSet.updateCanvas(this.cardSet.focusCard) })
+  }
+
+  setGUI() {
+    this.gui = new GUIPanel({
+      mode: 'segment',
+      cardSet: this.cardSet,
+    })
+
+    // update GUI a card is selected
+    this.time.on('mouseDown', () => {
+      const intersects = this.controls.getRayCast(this.cardSet.list)
+
+      if (!intersects.length) { this.gui.newCard(); return }
+      this.gui.currentCard()
+    })
   }
 }

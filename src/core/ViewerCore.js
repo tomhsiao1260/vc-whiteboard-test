@@ -45,7 +45,7 @@ export default class ViewerCore {
     this.params.mode = null
     this.params.surface = 0.003
     this.params.layer = 0
-    this.params.inverse = false
+    this.params.inverse = true
     this.params.layers = { select: 0, options: {} }
 
     this.init()

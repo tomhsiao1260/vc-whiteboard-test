@@ -50,7 +50,7 @@ export default class Application {
 
     this.time.on('tick', () => {
       this.renderer.render(this.scene, this.camera.instance)
-      console.log('render')
+      // console.log('render')
     })
   }
 
